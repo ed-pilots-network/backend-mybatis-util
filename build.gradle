@@ -12,6 +12,9 @@ compileJava.options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://nexus.edpn.io'
+    }
 }
 
 ext {
