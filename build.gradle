@@ -1,0 +1,58 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'org.javamodularity.moduleplugin' version '1.8.12'
+    id "org.gradlex.extra-java-module-info" version "1.4"
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'io.edpn.backend'
+version = '0.0.1-SNAPSHOT'
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    mybatisSpringBootVersion = '3.0.2'
+}
+
+dependencies {
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisSpringBootVersion}"
+}
+
+
+test {
+    systemProperty "file.encoding", "utf-8"
+    useJUnitPlatform()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile).tap {
+    configureEach {
+        options.encoding = 'UTF-8'
+    }
+}
+
+publishing {
+    publications {
+        backendMybatisUtil(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url = "https://nexus.edpn.io/"
+        }
+    }
+}
