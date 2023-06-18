@@ -1,4 +1,4 @@
-module edpn.backend.mybatis.util {
+module io.edpn.backend.mybatis.util {
     requires java.sql;
     requires org.mybatis.spring;
     requires org.mybatis;
