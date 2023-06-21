@@ -10,10 +10,6 @@ on:
       - main
       - development
 
-env:
-  NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-  NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-
 permissions:
   contents: read
 
@@ -27,6 +23,7 @@ jobs:
 
   build:
     name: "Build"
+    needs: validation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -39,11 +36,14 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: Make gradlew executable
         run: chmod +x ./gradlew
-      - name: Execute Gradle build
-        run: ./gradlew build
+      - name: build
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build --scan
 
-  nexus:
-    name: "Nexus deploy"
+  publish:
+    name: "Publish to Nexus"
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -56,5 +56,10 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: Make gradlew executable
         run: chmod +x ./gradlew
-      - name: Execute Gradle build
-        run: ./gradlew jar
+      - name: publish
+        env:
+          ORG_GRADLE_PROJECT_edpnNexusUsername: ${{ secrets.NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_edpnNexusPassword: ${{ secrets.NEXUS_PASSWORD }}
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: publish
