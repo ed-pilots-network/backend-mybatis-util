@@ -13,7 +13,12 @@ compileJava.options.encoding = 'UTF-8'
 repositories {
     mavenCentral()
     maven {
-        url 'https://nexus.edpn.io'
+        url 'https://nexus.edpn.io/repository/maven-releases/'
+    }
+    if (version.endsWith('-SNAPSHOT')) { //disallow snapshot dependencies in releases
+        maven {
+            url 'https://nexus.edpn.io/repository/maven-snapshots/'
+        }
     }
 }
 
