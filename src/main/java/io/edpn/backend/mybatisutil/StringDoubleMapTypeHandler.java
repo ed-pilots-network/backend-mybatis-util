@@ -5,6 +5,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
 import org.apache.ibatis.type.MappedTypes;
 import org.postgresql.util.HStoreConverter;
+import org.postgresql.util.PGobject;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
@@ -14,11 +15,15 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @MappedTypes(Map.class)
+@MappedJdbcTypes(JdbcType.OTHER)
 public class StringDoubleMapTypeHandler extends BaseTypeHandler<Map<String, Double>> {
     
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, Map<String, Double> parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, HStoreConverter.toString(parameter));
+        PGobject pGobject = new PGobject();
+        pGobject.setType("hstore");
+        pGobject.setValue(HStoreConverter.toString(parameter));
+        ps.setObject(i, pGobject);
     }
     
     @Override

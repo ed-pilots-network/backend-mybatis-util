@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'io.edpn.backend'
-version = '0.0.1.8-SNAPSHOT'//TODO REMOVE DEBUGGING VERSION AND BUMP TO LATEST
+version = '0.0.2-SNAPSHOT'
 compileJava.options.encoding = 'UTF-8'
 
 repositories {
