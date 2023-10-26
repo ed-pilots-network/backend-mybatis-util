@@ -24,12 +24,10 @@ repositories {
 
 ext {
     mybatisSpringBootVersion = '3.0.2'
-    postgresqlVersion = '42.6.0'
 }
 
 dependencies {
     implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisSpringBootVersion}"
-    implementation "org.postgresql:postgresql:${postgresqlVersion}"
 }
 
 
