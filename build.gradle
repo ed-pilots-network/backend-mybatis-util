@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'io.edpn.backend'
-version = '0.0.3-SNAPSHOT'
+version = '0.0.4-SNAPSHOT'
 compileJava.options.encoding = 'UTF-8'
 
 java {
